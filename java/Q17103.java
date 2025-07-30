@@ -1,35 +1,31 @@
-
 import java.io.*;
-import java.util.*;
 
 public class Q17103 {
   public static void main(String[] args) throws IOException {
     BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-    int N = Integer.parseInt(bf.readLine());
+    int T = Integer.parseInt(bf.readLine());
 
-    Boolean[] arr = new Boolean[N];
-    for(int i=0; i<N; i++){
-      arr[i] = false;
-    }
-    
-    for(int i=1; i<=N; i++){
-      for(int j=1; j<=N; j++){
-        if(i*j < N){
-          if(arr[i*j]){
-            arr[i*j] = false;
-          }else{
-            arr[i*j] = true;
-          }
+    int count = 0; //각 케이스의 count 초기화
+    //T개의 테스트 수만큼 반복
+    for(int i=0; i<T; i++){
+      int N = Integer.parseInt(bf.readLine()); //짝수 값을 받음
+      
+      for(int prime1 = 2; prime1 <= N; prime1++){
+        int prime2 = N-prime1;
+
+        if(isPrime(prime1) && isPrime(prime2)){
+          count++;
         }
       }
     }
-
-    int count = 0;
-    for(int i=0; i<N; i++){
-      if(arr[i]){
-        count++;
-      }
-    }
-    System.out.print(count);
+    System.out.println(count);
   }
+
+  public static boolean isPrime(int n) {
+        if (n < 2) return false;
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) return false;
+        }
+        return true;
+    }
 }
