@@ -1,31 +1,40 @@
 import java.io.*;
 
 public class Q17103 {
+  static final int MAX = 1000000;
   public static void main(String[] args) throws IOException {
     BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-    int T = Integer.parseInt(bf.readLine());
+        int T = Integer.parseInt(bf.readLine());
 
-    int count = 0; //각 케이스의 count 초기화
-    //T개의 테스트 수만큼 반복
-    for(int i=0; i<T; i++){
-      int N = Integer.parseInt(bf.readLine()); //짝수 값을 받음
-      
-      for(int prime1 = 2; prime1 <= N; prime1++){
-        int prime2 = N-prime1;
+        boolean[] isPrime = getPrimeArray(MAX);
 
-        if(isPrime(prime1) && isPrime(prime2)){
-          count++;
+        StringBuilder sb = new StringBuilder();
+
+        for (int t = 0; t < T; t++) {
+            int N = Integer.parseInt(bf.readLine());
+            int count = 0;
+
+            for (int i = 2; i <= N / 2; i++) {
+                if (isPrime[i] && isPrime[N - i]) {
+                    count++;
+                }
+            }
+            sb.append(count).append("\n");
         }
-      }
-    }
-    System.out.println(count);
+        System.out.print(sb);
   }
 
-  public static boolean isPrime(int n) {
-        if (n < 2) return false;
-        for (int i = 2; i <= Math.sqrt(n); i++) {
-            if (n % i == 0) return false;
+  public static boolean[] getPrimeArray(int n) {
+    boolean[] isPrime = new boolean[n + 1];
+    for (int i = 2; i <= n; i++) isPrime[i] = true;
+
+    for (int i = 2; i * i <= n; i++) {
+        if (isPrime[i]) {
+            for (int j = i * i; j <= n; j += i) {
+                isPrime[j] = false;
+            }
         }
-        return true;
     }
+    return isPrime;
+  }
 }
