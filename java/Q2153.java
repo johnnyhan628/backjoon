@@ -19,8 +19,6 @@ public class Q2153 {
       count = count + changeInteger(c);
     }
 
-    System.out.println(count);
-
     if(isPrime(count)){
       System.out.print("It is a prime word.");
     }else{
@@ -29,7 +27,7 @@ public class Q2153 {
   }
 
   public static boolean isPrime(int n){
-    if(n < 2) return false;
+    if(n == 1) return true;
     for(int i=2; i<=Math.sqrt(n); i++){
       if(n%i == 0) return false;
     }
