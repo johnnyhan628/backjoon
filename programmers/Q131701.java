@@ -1,28 +1,27 @@
 package programmers;
 
-import java.io.*;
 import java.util.*;
-
+import java.util.stream.*;
 public class Q131701 {
-    public int solution(int[] elements) throws IOException{
-        
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String input = br.readLine();
-        String[] strArr = input.split(" ");
-        
-        //배열 생성 및 정렬
-        int[] intArr = new int[strArr.length];
-        for(int i=0; i<intArr.length; i++){
-            intArr[i] = Integer.parseInt(strArr[i]);
-        }
-        Arrays.sort(intArr);
-        
-        //투포인터
-        for(int i=0; i<intArr.length; i++){
-            
+    public int solution(int[] elements) {
+        int elements_len = elements.length;
+        List<Integer> intList = new ArrayList<>();
+    
+        for(int i=0; i<elements_len; i++){
+            int sum = 0;
+            for(int len=1; len<=elements_len; len++){
+                int index = (i + len - 1) % elements_len;
+                sum += elements[index];
+                intList.add(sum);
+            }
         }
         
-        int answer = 0;
+        List<Integer> distinctList = intList
+                                        .stream()
+                                        .distinct()
+                                        .collect(Collectors.toList());
+    
+        int answer = distinctList.size();
         return answer;
     }
 }
