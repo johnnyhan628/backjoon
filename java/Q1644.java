@@ -1,45 +1,60 @@
 import java.io.*;
+import java.util.*;
 /*
  * 1644 소수의 연속합
- * 투 포인터 + 소수판별
- * 그 자체가 소수면 cnt++
+ * 소수 배열 -> 에스토라스의 체
+ * 소수 배열을 순회 -> 슬라이딩 투포인터
  */
 public class Q1644 {
     public static void main(String[] args)throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        int k = 2; // 첫번째 수
-        int sum = 0; // 합을 구할 수
-        int cnt = 0; // return 을 담을 counter
-        while(k <= N){
-            if(isPrime(k) && k == N){
-                cnt++;
-            }else if(isPrime(k)){
-                sum += k;
+
+        ArrayList<Integer> primeList = isPrime(N);
+        int left = 0; int right = 0;
+        int sum = 0; int cnt = 0;
+
+        while(true){
+            if(sum >= N){
                 if(sum == N){
-                    cnt ++;
-                    sum = 0;
-                }else if(sum > N){
-                    sum = 0;
+                    cnt++;
                 }
+                if(left == primeList.size()){
+                    break;
+                }
+                sum = sum - primeList.get(left++);
+            }else {
+                if(right == primeList.size()){
+                    break;
+                }
+                sum = sum + primeList.get(right++);
             }
-            k++;
         }
-        System.out.println(cnt);
+        System.out.print(cnt);
     }
     
-    //소수판별 함수
-    static boolean isPrime(int k){
-        if(k < 2){
-            return false;
-        }
+    static ArrayList<Integer> isPrime(int N){
+        boolean[] arr = new boolean[N+1]; // 0부터 N까지의 인덱스가 존재하는 배열 생성
+        Arrays.fill(arr, true); // arr의 모든 인덱스 값을 true로 일단 채움
+        arr[0] = arr[1] = false; //어짜피 0이랑 1은 소수 아님
 
-        for(int i=2; i<=Math.sqrt(k); i++){
-            if(k % i == 0){
-                return false;
+        //아래 루프는 그냥 외워라 내가 이해할 수 있는 범위가 아님
+        for(int i=2; i<= i*i; i++){
+            if(arr[i]){
+                for(int j=i*i; j<=N; j+=i){
+                    arr[j] = false;
+                }
             }
         }
-        return true;
+
+        // true인 애들만 담음
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int i=2; i<=N; i++){
+            if(arr[i]){
+                list.add(i);
+            }
+        }
+        return list;
     }
 }
 
