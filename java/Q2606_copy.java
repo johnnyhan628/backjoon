@@ -28,7 +28,8 @@ public class Q2606_copy {
             gragh.get(a).add(b);
             gragh.get(b).add(a);
         }
-
+        dfs(1);
+        System.out.print(count - 1);
     }
 
     static void dfs(int node) {
